@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WeatherApi.Middleware
 {
-    public class TestHeader
+    public class TestHeaderMiddleware
     {
         private readonly RequestDelegate next;
 
-        public TestHeader(RequestDelegate next)
+        public TestHeaderMiddleware(RequestDelegate next)
         {
             this.next = next;
         }
