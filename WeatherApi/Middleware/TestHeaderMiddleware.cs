@@ -16,7 +16,10 @@ namespace WeatherApi.Middleware
 
         public async Task Invoke(HttpContext httpContext)
         {
-            // do something
+            var header = new KeyValuePair<string, StringValues>("test-header", "abcdefg");
+
+            httpContext.Response.Headers.Add(header);
+
             await next(httpContext);
         }
     }
