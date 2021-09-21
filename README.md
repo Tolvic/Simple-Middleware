@@ -1,5 +1,5 @@
 # Simple Middleware
-The repo showcases how to create a simple peiece of middleware that adds a header to the response of every request. 
+The repo showcases how to create a simple piece of middleware that adds a header to the response of every request. 
 
 ## The Request Pipeline
 
