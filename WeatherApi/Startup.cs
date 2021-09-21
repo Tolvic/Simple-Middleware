@@ -45,9 +45,7 @@ namespace WeatherApi
 
             app.UseAuthorization();
 
-            app.UseMiddleware<TestHeaderMiddleware>();
-
-            //app.UseTestHeader();
+            app.UseTestHeader();
 
             app.UseEndpoints(endpoints =>
             {
