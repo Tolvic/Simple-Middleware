@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WeatherApi.Extensions;
+using WeatherApi.Middleware;
 
 namespace WeatherApi
 {
@@ -44,7 +45,9 @@ namespace WeatherApi
 
             app.UseAuthorization();
 
-            app.UseTestHeader();
+            app.UseMiddleware<TestHeaderMiddleware>();
+
+            //app.UseTestHeader();
 
             app.UseEndpoints(endpoints =>
             {
