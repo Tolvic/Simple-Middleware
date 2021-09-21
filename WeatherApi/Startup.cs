@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeatherApi.Extensions;
 
 namespace WeatherApi
 {
@@ -43,15 +44,7 @@ namespace WeatherApi
 
             app.UseAuthorization();
 
-            app.Use(async (context, next) =>
-            {
-                var header = new KeyValuePair<string, StringValues>("test-header", "abcdefg");
-
-                context.Response.Headers.Add(header);
-
-                await next();
-
-            });
+            app.UseTestHeader();
 
             app.UseEndpoints(endpoints =>
             {
