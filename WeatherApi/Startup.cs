@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,16 @@ namespace WeatherApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.Use(async (context, next) =>
+            {
+                var header = new KeyValuePair<string, StringValues>("test-header", "abcdefg");
+
+                context.Response.Headers.Add(header);
+
+                await next();
+
+            });
 
             app.UseEndpoints(endpoints =>
             {
