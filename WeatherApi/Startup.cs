@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeatherApi.Builder;
 using WeatherApi.Extensions;
 using WeatherApi.Middleware;
 
@@ -29,6 +30,8 @@ namespace WeatherApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSingleton<IHeaderBuilder, HeaderBuilder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
