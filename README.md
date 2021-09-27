@@ -40,3 +40,5 @@ Finally, I demonstrate how Middleware components can resolve their dependencies 
 ## Resources
 * [Middleware Overview](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0)
 * [Writing Custom Middleware](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-5.0)
+* [Factory-Based Middleware](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/extensibility?view=aspnetcore-5.0)
+* [Testing Middleware](https://docs.microsoft.com/en-us/aspnet/core/test/middleware?view=aspnetcore-5.0)
