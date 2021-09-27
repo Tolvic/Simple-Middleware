@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using FluentAssertions;
+using Microsoft.Extensions.Primitives;
 
 namespace WeatherApi.Tests
 {
@@ -16,7 +17,27 @@ namespace WeatherApi.Tests
         [Fact]
         public async Task ResponseHeaders_ShouldContainTestHeader()
         {
-            using var host = await new HostBuilder()
+            var host = await BuildHost();
+
+            var response = await host.GetTestClient().GetAsync("/");
+
+            response.Headers.Contains("test-header").Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task TestHeader_ShouldHaveCorrectValue()
+        {
+            var expectedValue = new StringValues("abcdefg");
+            var host = await BuildHost();
+
+            var response = await host.GetTestClient().GetAsync("/");
+
+            response.Headers.GetValues("test-header").Should().BeEquivalentTo(expectedValue);
+        }
+
+        private async Task<IHost> BuildHost()
+        {
+            return await new HostBuilder()
                 .ConfigureWebHost(webBuilder =>
                 {
                     webBuilder
@@ -26,15 +47,11 @@ namespace WeatherApi.Tests
                             services.AddSingleton<IHeaderBuilder, HeaderBuilder>();
                         })
                         .Configure(app =>
-                            {
-                                app.UseMiddleware<TestHeaderMiddleware>();
-                            });
+                        {
+                            app.UseMiddleware<TestHeaderMiddleware>();
+                        });
                 })
                 .StartAsync();
-
-            var response = await host.GetTestClient().GetAsync("/");
-
-            response.Headers.Contains("test-header").Should().BeTrue();
-        }
+    }
     }
 }
