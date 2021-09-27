@@ -52,6 +52,6 @@ namespace WeatherApi.Tests
                         });
                 })
                 .StartAsync();
-    }
+        }
     }
 }
