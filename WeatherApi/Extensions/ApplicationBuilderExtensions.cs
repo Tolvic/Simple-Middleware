@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Primitives;
-using System.Collections.Generic;
 using WeatherApi.Middleware;
 
 namespace WeatherApi.Extensions
