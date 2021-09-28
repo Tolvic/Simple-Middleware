@@ -20,10 +20,6 @@ namespace WeatherApi.Middleware
 
         public async Task Invoke(HttpContext httpContext)
         {
-            var header = headerBuilder.BuildTestHeader();
-
-            httpContext.Response.Headers.Add(header);
-
             try
             {
                 await next(httpContext);
@@ -32,7 +28,11 @@ namespace WeatherApi.Middleware
             {
                 _ = Task.Run(logger.LogError);
             }
-            
+
+            var header = headerBuilder.BuildTestHeader();
+
+            httpContext.Response.Headers.Add(header);
+
         }
     }
 }
