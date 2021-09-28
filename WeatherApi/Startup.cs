@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WeatherApi.Builder;
 using WeatherApi.Extensions;
+using WeatherApi.Logger;
 using WeatherApi.Middleware;
 
 namespace WeatherApi
@@ -32,6 +33,7 @@ namespace WeatherApi
             services.AddControllers();
 
             services.AddSingleton<IHeaderBuilder, HeaderBuilder>();
+            services.AddTransient<IExampleLogger, ExampleLogger>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

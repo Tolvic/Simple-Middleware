@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using FluentAssertions;
 using Microsoft.Extensions.Primitives;
+using WeatherApi.Logger;
 
 namespace WeatherApi.Tests
 {
@@ -45,6 +46,7 @@ namespace WeatherApi.Tests
                         .ConfigureServices(services =>
                         {
                             services.AddSingleton<IHeaderBuilder, HeaderBuilder>();
+                            services.AddTransient<IExampleLogger, ExampleLogger>();
                         })
                         .Configure(app =>
                         {

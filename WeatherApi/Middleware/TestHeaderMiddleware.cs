@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using WeatherApi.Builder;
+using WeatherApi.Logger;
 
 namespace WeatherApi.Middleware
 {
@@ -8,11 +9,13 @@ namespace WeatherApi.Middleware
     {
         private readonly RequestDelegate next;
         private readonly IHeaderBuilder headerBuilder;
+        private readonly IExampleLogger logger;
 
-        public TestHeaderMiddleware(RequestDelegate next, IHeaderBuilder headerBuilder)
+        public TestHeaderMiddleware(RequestDelegate next, IHeaderBuilder headerBuilder, IExampleLogger logger)
         {
             this.next = next;
             this.headerBuilder = headerBuilder;
+            this.logger = logger;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -21,7 +24,15 @@ namespace WeatherApi.Middleware
 
             httpContext.Response.Headers.Add(header);
 
-            await next(httpContext);
+            try
+            {
+                await next(httpContext);
+            }
+            catch
+            {
+                _ = Task.Run(logger.LogError);
+            }
+            
         }
     }
 }
