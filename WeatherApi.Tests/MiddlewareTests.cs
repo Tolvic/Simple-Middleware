@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using FluentAssertions;
 using Microsoft.Extensions.Primitives;
 using WeatherApi.Logger;
+using WeatherApi.Extensions;
 
 namespace WeatherApi.Tests
 {
@@ -50,7 +51,7 @@ namespace WeatherApi.Tests
                         })
                         .Configure(app =>
                         {
-                            app.UseMiddleware<TestHeaderMiddleware>();
+                            app.UseTestHeader();
                         });
                 })
                 .StartAsync();
