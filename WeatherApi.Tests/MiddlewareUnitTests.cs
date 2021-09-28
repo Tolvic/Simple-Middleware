@@ -9,6 +9,7 @@ using Moq;
 using System.Collections.Generic;
 using System;
 using WeatherApi.Logger;
+using FluentAssertions;
 
 namespace WeatherApi.Tests
 {
@@ -24,20 +25,6 @@ namespace WeatherApi.Tests
             _headerBuilder.Setup(x => x.BuildTestHeader()).Returns(new KeyValuePair<string, StringValues>("test-header", "abcdefg"));
 
             _logger = new Mock<IExampleLogger>();
-        }
-
-        [Fact]
-        public async Task TestHeaderMiddleware_ShouldCallHeaderBuilder()
-        {
-            // Arrange
-            var httpContext = GetHttpContext();
-            var middlewareInstance = new TestHeaderMiddleware(GetNextRequestDelegate(), _headerBuilder.Object, _logger.Object);
-
-            // Act
-            await middlewareInstance.Invoke(httpContext);
-
-            // Assert
-            _headerBuilder.Verify( x => x.BuildTestHeader(), Times.Once);
         }
 
         [Fact]
@@ -57,6 +44,36 @@ namespace WeatherApi.Tests
             // Assert
             _logger.Verify(x => x.LogError(), Times.Once);
         }
+
+        [Fact]
+        public async Task TestHeaderMiddleware_ShouldCallHeaderBuilder()
+        {
+            // Arrange
+            var httpContext = GetHttpContext();
+            var middlewareInstance = new TestHeaderMiddleware(GetNextRequestDelegate(), _headerBuilder.Object, _logger.Object);
+
+            // Act
+            await middlewareInstance.Invoke(httpContext);
+
+            // Assert
+            _headerBuilder.Verify( x => x.BuildTestHeader(), Times.Once);
+        }
+
+        [Fact]
+        public async Task TestHeaderMiddleware_AddsHeaderToResponse()
+        {
+            // Arrange
+            var httpContext = GetHttpContext();
+            var middlewareInstance = new TestHeaderMiddleware(GetNextRequestDelegate(), _headerBuilder.Object, _logger.Object);
+
+            // Act
+            await middlewareInstance.Invoke(httpContext);
+
+            // Assert
+            httpContext.Response.Headers.ContainsKey("test-header").Should().BeTrue();
+        }
+
+
 
         private static DefaultHttpContext GetHttpContext()
         {
